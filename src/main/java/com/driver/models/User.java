@@ -1,9 +1,8 @@
 package com.driver.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -15,6 +14,8 @@ public class User {
     private String password;
     private String firstName = "test";
     private String lastName = "test";
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Blog> blogList = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -26,6 +27,10 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public List<Blog> getBlogList() {
+        return blogList;
     }
 
     public void setUsername(String username) {
@@ -54,5 +59,9 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setBlogList(List<Blog> blogList) {
+        this.blogList = blogList;
     }
 }
