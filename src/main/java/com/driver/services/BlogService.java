@@ -15,10 +15,10 @@ import java.util.List;
 @Service
 public class BlogService {
     @Autowired
-    BlogRepository blogRepository;
+    BlogRepository blogRepository1;
 
     @Autowired
-    UserRepository userRepository;
+    UserRepository userRepository1;
 
     @Autowired
     ImageRepository imageRepository;
@@ -26,15 +26,19 @@ public class BlogService {
     public Blog createAndReturnBlog(Integer userId, String title, String content) {
         //create a blog at the current time
 
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userRepository1.findById(userId).orElse(null);
         if (user != null) {
             Blog blog = new Blog();
             blog.setTitle(title);
             blog.setContent(content);
+            blog.setPubDate(new Date()); // Set the publication date
             blog.setUser(user);
-            blog.setPubDate(new Date());
-            return blogRepository.save(blog);
+
+            user.getBlogList().add(blog); // Add blog to user's blog list
+
+            return blogRepository1.save(blog);
         }
+
         return null;
 
     }
@@ -42,7 +46,7 @@ public class BlogService {
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
 
-        Blog blog = blogRepository.findById(blogId).orElse(null);
+        Blog blog = blogRepository1.findById(blogId).orElse(null);
         if (blog != null) {
             // Delete associated images
             List<Image> images = blog.getImageList();
@@ -51,7 +55,7 @@ public class BlogService {
             }
 
             // Delete the blog
-            blogRepository.deleteById(blogId);
+            blogRepository1.deleteById(blogId);
         }
 
     }

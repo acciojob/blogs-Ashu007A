@@ -24,6 +24,7 @@ public class ImageService {
             image.setDescription(description);
             image.setDimensions(dimensions);
             image.setBlog(blog);
+
             return imageRepository.save(image);
         }
         return null;
