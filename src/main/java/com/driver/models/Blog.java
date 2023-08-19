@@ -12,14 +12,14 @@ public class Blog {
 
     private String title;
     private String content;
-    private Date creationDate;
+    private Date pubDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
-    private List<Image> images;
+    private List<Image> imageList;
 
     public Integer getId() {
         return id;
@@ -45,12 +45,12 @@ public class Blog {
         this.content = content;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public Date getPubDate() {
+        return pubDate;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setPubDate(Date pubDate) {
+        this.pubDate = pubDate;
     }
 
     public User getUser() {
@@ -61,11 +61,11 @@ public class Blog {
         this.user = user;
     }
 
-    public List<Image> getImages() {
-        return images;
+    public List<Image> getImageList() {
+        return imageList;
     }
 
-    public void setImages(List<Image> images) {
-        this.images = images;
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
     }
 }

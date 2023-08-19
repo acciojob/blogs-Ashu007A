@@ -9,7 +9,6 @@ import com.driver.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class BlogService {
             blog.setTitle(title);
             blog.setContent(content);
             blog.setUser(user);
-            blog.setCreationDate(new Date());
+            blog.setPubDate(new Date());
             return blogRepository.save(blog);
         }
         return null;
@@ -46,7 +45,7 @@ public class BlogService {
         Blog blog = blogRepository.findById(blogId).orElse(null);
         if (blog != null) {
             // Delete associated images
-            List<Image> images = blog.getImages();
+            List<Image> images = blog.getImageList();
             for (Image image : images) {
                 imageRepository.delete(image);
             }
