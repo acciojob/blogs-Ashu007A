@@ -16,18 +16,44 @@ import java.util.List;
 @Service
 public class BlogService {
     @Autowired
-    BlogRepository blogRepository1;
+    BlogRepository blogRepository;
 
     @Autowired
-    UserRepository userRepository1;
+    UserRepository userRepository;
+
+    @Autowired
+    ImageRepository imageRepository;
 
     public Blog createAndReturnBlog(Integer userId, String title, String content) {
         //create a blog at the current time
+
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            Blog blog = new Blog();
+            blog.setTitle(title);
+            blog.setContent(content);
+            blog.setUser(user);
+            blog.setCreationDate(new Date());
+            return blogRepository.save(blog);
+        }
+        return null;
 
     }
 
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
+
+        Blog blog = blogRepository.findById(blogId).orElse(null);
+        if (blog != null) {
+            // Delete associated images
+            List<Image> images = blog.getImages();
+            for (Image image : images) {
+                imageRepository.delete(image);
+            }
+
+            // Delete the blog
+            blogRepository.deleteById(blogId);
+        }
 
     }
 }
